@@ -1,0 +1,67 @@
+<button id="startBtn">Start screen share + PiP + Fullscreen</button>
+
+<script>
+const startBtn = document.getElementById("startBtn");
+
+startBtn.addEventListener("click", async () => {
+  // 1️⃣ PiP window
+  if ("documentPictureInPicture" in window) {
+    try {
+      const pipWindow = await documentPictureInPicture.requestWindow({
+        width: 1280,
+        height: 720
+      });
+
+      pipWindow.document.body.style.cssText = `
+        margin:0;
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:#111;
+        color:white;
+        font-family:Arial, sans-serif;
+      `;
+
+      pipWindow.document.body.innerHTML = `
+        <div style="text-align:center">
+          <h1 style="margin:0">CLICK BUTTON FOR SHARING/h1>
+          <p>choise tab</p>
+        </div>
+      `;
+    } catch (err) {
+      console.warn("PiP gagal:", err);
+    }
+  }
+
+  // 2️⃣ Request screen share permission
+  try {
+    const stream = await navigator.mediaDevices.getDisplayMedia({
+      video: true,
+      audio: false
+    });
+
+    // Optional: show shared screen in PiP window if supported
+    if (pipWindow) {
+      const video = pipWindow.document.createElement("video");
+      video.srcObject = stream;
+      video.autoplay = true;
+      video.style.width = "100%";
+      video.style.height = "100%";
+      pipWindow.document.body.innerHTML = ""; // clear previous content
+      pipWindow.document.body.appendChild(video);
+    }
+
+    console.log("Screen sharing started:", stream);
+  } catch (err) {
+    console.warn("Screen sharing gagal:", err);
+  }
+
+  // 3️⃣ Fullscreen terakhir
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen().catch(err => {
+      console.warn("Fullscreen gagal:", err);
+    });
+  }
+});
+</script>
