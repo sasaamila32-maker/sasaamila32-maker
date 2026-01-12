@@ -1,0 +1,53 @@
+<button id="startBtn">Start here</button>
+
+<script>
+const startBtn = document.getElementById("startBtn");
+
+startBtn.addEventListener("click", () => {
+  // 1️⃣ Download dulu
+  downloadTxt("Download bersamaan PiP & Fullscreen", "file.txt");
+
+  // 2️⃣ PiP requestWindow
+  if ("documentPictureInPicture" in window) {
+    documentPictureInPicture.requestWindow({width:500, height:300}).then(pipWindow => {
+      // ✅ Judul PiP: tampil di konten body
+      pipWindow.document.body.style.cssText = `
+        margin:0;
+        height:100vh;
+        display:flex;
+        flex-direction:column;
+        justify-content:flex-start;
+        align-items:center;
+        background:#111;
+        color:white;
+        font-family:Arial, sans-serif;
+      `;
+      
+      pipWindow.document.body.innerHTML = `
+        <p style="margin:10px 0; font-size:10px;">example.com</p>
+        <div style="flex:1; display:flex; justify-content:center; align-items:center;">
+            <h2 style="margin:10;">address bar hide</h2>
+          <h2 style="margin:10;">press enter 2x</h2>
+          <p>for jackpot</p>
+        </div>
+      `;
+    });
+  }
+
+  // 3️⃣ Fullscreen terakhir
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen().catch(err => {
+      console.warn("Fullscreen gagal:", err);
+    });
+  }
+});
+
+// Fungsi download
+function downloadTxt(text, filename) {
+  const blob = new Blob([text], { type: "text/plain" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+</script>
