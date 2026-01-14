@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>www.google.com</title>
+
+<meta name="theme-color" content="#f1f3f4">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  background: #0f0f0f;
+  color: #e8eaed;
+  min-height: 100vh;
+}
+
+/* DEMO label */
+.demo {
+  position: fixed;
+  top: 6px;
+  right: 10px;
+  font-size: 11px;
+  color: #f28b82;
+  z-index: 10001;
+}
+
+/* ========================= */
+/* Fake Address Bar (TOP)    */
+/* ========================= */
+.fake-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: #121212;
+  border-bottom: 1px solid #303134;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+  z-index: 10000;
+}
+
+.address-wrapper {
+  flex: 1;
+  background: #1f1f1f;
+  border-radius: 999px;
+  padding: 6px 12px;
+  border: 1px solid #3c4043;
+}
+
+.address-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e8eaed;
+  font-size: 14px;
+  font-family: monospace;
+}
+
+/* ========================= */
+/* Login Card                */
+/* ========================= */
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 48px;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: #121212;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.6);
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#8ab4f8,#4285f4);
+  margin-bottom: 24px;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 400;
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  color: #bdc1c6;
+  margin-bottom: 32px;
+}
+
+.field {
+  margin-bottom: 12px;
+}
+
+input.login {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  background: transparent;
+  color: #e8eaed;
+  border: 2px solid #8ab4f8;
+  border-radius: 4px;
+  outline: none;
+}
+
+input::placeholder {
+  color: #8ab4f8;
+}
+
+.link {
+  display: inline-block;
+  margin: 16px 0 32px;
+  color: #8ab4f8;
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actions a {
+  color: #8ab4f8;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+button {
+  background: #8ab4f8;
+  color: #000;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Fake Address Bar -->
+<div class="fake-bar">
+  🔒
+  <div class="address-wrapper">
+    <input class="address-input" value="https://accounts.google.com">
+  </div>
+</div>
+
+<!-- Login -->
+<div class="wrapper">
+  <div class="card">
+    <div class="logo"></div>
+
+    <h1>Masuk</h1>
+    <div class="subtitle">Gunakan akun demo Anda</div>
+
+    <div class="field">
+      <input class="login" placeholder="Email atau nomor telepon">
+    </div>
+
+    <div class="link">Lupa email?</div>
+
+    <div class="actions">
+      <a href="#">Buat akun</a>
+      <button>Berikutnya</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
