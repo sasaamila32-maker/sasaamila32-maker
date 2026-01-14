@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Fake Address Bar – Demo</title>
+
+<meta name="theme-color" content="#f1f3f4" id="theme-color-meta">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, Arial, sans-serif;
+  background: #000;
+  color: #e8eaed;
+  min-height: 100vh;
+}
+
+/* Demo label */
+.demo {
+  position: fixed;
+  top: 6px;
+  right: 10px;
+  font-size: 11px;
+  color: #f28b82;
+  z-index: 10001;
+}
+
+/* Main content */
+.container {
+  padding: 88px 24px 32px;
+}
+
+input.main {
+  width: 100%;
+  padding: 18px 16px;
+  font-size: 16px;
+  background: transparent;
+  color: #e8eaed;
+  border: 2px solid #8ab4f8;
+  border-radius: 4px;
+}
+
+/* ========================= */
+/* Fake Address Bar (TOP)    */
+/* ========================= */
+.fake-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: #121212;
+  border-bottom: 1px solid #303134;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 8px;
+  z-index: 10000;
+
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform .35s ease, opacity .25s ease;
+}
+
+.fake-bar.show {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Icons */
+.icon {
+  font-size: 16px;
+  opacity: .85;
+  cursor: pointer;
+}
+
+/* Address input */
+.address-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #1f1f1f;
+  border-radius: 999px;
+  padding: 6px 12px;
+  border: 1px solid #3c4043;
+  transition: border .2s ease, box-shadow .2s ease;
+}
+
+.address-wrapper.focused {
+  border-color: #8ab4f8;
+  box-shadow: 0 0 0 2px rgba(138,180,248,.3);
+}
+
+.address-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e8eaed;
+  font-size: 14px;
+  font-family: monospace;
+}
+
+/* Loading bar */
+.loading {
+  position: absolute;
+  top: 47px;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: #8ab4f8;
+  transition: width 1.2s ease;
+}
+.loading.active {
+  width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="demo">UI DEMO</div>
+
+<!-- Fake Address Bar -->
+<div class="fake-bar" id="fakeBar">
+  <div class="icon" title="Secure">🔒</div>
+
+  <div class="address-wrapper" id="addrWrap">
+    <input
+      id="addressInput"
+      class="address-input"
+      value="https://demo.example"
+      spellcheck="false"
+    >
+  </div>
+
+  <div class="icon" id="reloadBtn" title="Reload">⟳</div>
+</div>
+<div class="loading" id="loadingBar"></div>
+
+<div class="container">
+  <input class="main" id="mainInput" placeholder="Tap to focus & trigger print">
+</div>
+
+<script>
+const mainInput = document.getElementById("mainInput");
+const fakeBar = document.getElementById("fakeBar");
+const addressInput = document.getElementById("addressInput");
+const addrWrap = document.getElementById("addrWrap");
+const reloadBtn = document.getElementById("reloadBtn");
+const loadingBar = document.getElementById("loadingBar");
+const metaTheme = document.getElementById("theme-color-meta");
+
+function changeTabColor(color) {
+  metaTheme.setAttribute("content", color);
+}
+
+/* === Keyboard → Print === */
+mainInput.addEventListener("focus", () => {
+  changeTabColor("#ffffff");
+
+  setTimeout(() => {
+    window.print();
+  }, 300);
+});
+
+/* === After Print → Show Fake Bar === */
+window.addEventListener("afterprint", () => {
+  setTimeout(() => {
+    fakeBar.classList.add("show");
+  }, 300);
+});
+
+/* === Address Bar Interaction === */
+addressInput.addEventListener("focus", () => {
+  addrWrap.classList.add("focused");
+  addressInput.select();
+});
+
+addressInput.addEventListener("blur", () => {
+  addrWrap.classList.remove("focused");
+});
+
+/* Fake navigation */
+function fakeNavigate() {
+  loadingBar.classList.add("active");
+
+  setTimeout(() => {
+    loadingBar.classList.remove("active");
+  }, 1200);
+}
+
+/* Enter key triggers fake navigation */
+addressInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    addressInput.blur();
+    fakeNavigate();
+  }
+});
+
+/* Reload button */
+reloadBtn.addEventListener("click", fakeNavigate);
+
+/* Reset on blur main */
+mainInput.addEventListener("blur", () => {
+  changeTabColor("#f1f3f4");
+});
+</script>
+
+</body>
+</html>
