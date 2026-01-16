@@ -1,71 +1,46 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Two Redirect Half Fullscreen</title>
+<script>
+function a(){
+    // 1. buka window ke website luar
+    var x = window.open("https://google.com", "x");
 
-  <script>
-    function a() {
+    // 2. setelah 1 detik, redirect ke halaman blank (same-origin)
+    setTimeout(function () {
+        x.location = "about:blank";
+    }, 1000);
 
-      // hitung setengah layar
-      var wWidth  = Math.floor(screen.width / 2);
-      var wHeight = Math.floor(screen.height / 2);
-      var wLeft   = Math.floor((screen.width - wWidth) / 2);
-      var wTop    = Math.floor((screen.height - wHeight) / 2);
-
-      // 1️⃣ buka window pertama (redirect 1)
-      var w = window.open(
-        'https://google.com',
-        'x',
-        `width=${wWidth},
-         height=${wHeight},
-         left=${wLeft},
-         top=${wTop},
-         resizable=yes,
-         scrollbars=yes`
-      );
-
-      // 2️⃣ redirect ke halaman kedua
-      setTimeout(function () {
-        w.location.href = 'about:blank';
-
-        // 3️⃣ tulis konten SETELAH redirect kedua
-        setTimeout(function () {
-          w.document.open();
-          w.document.write(`
+    // 3. setelah blank terbuka, baru document.write
+    setTimeout(function () {
+        x.document.open();
+        x.document.write(`
             <!DOCTYPE html>
             <html>
             <head>
-              <title>Injected</title>
+                <title>Blank Page</title>
+                <style>
+                    body {
+                        font-family: Arial;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                        margin: 0;
+                        background: #f2f2f2;
+                    }
+                </style>
             </head>
-            <body style="
-              margin:0;
-              height:100vh;
-              display:flex;
-              justify-content:center;
-              align-items:center;
-              background:black;
-              color:lime;
-              font-family:Arial;
-            ">
-              <div>
-                <h1>✅ 2 Redirect Berhasil</h1>
-                <p>Setengah fullscreen & stabil</p>
-              </div>
+            <body>
+                <div>
+                    <h2>Halaman Baru</h2>
+                    <p>Ini ditulis setelah redirect ke blank</p>
+                </div>
             </body>
             </html>
-          `);
-          w.document.close();
-        }, 500);
+        `);
+        x.document.close();
+    }, 1600); // beri jarak setelah redirect
+}
+</script>
 
-      }, 1000);
-    }
-  </script>
-</head>
-
-<body>
-  <center>
-    <input type="button" value="Click me!" onclick="a()">
-  </center>
-</body>
-</html>
+<center>
+    <input type="button" class="button" value="Click me!" onclick="a()">
+</center>
