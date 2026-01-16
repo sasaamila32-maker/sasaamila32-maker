@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function a() {
+
+  // 1️⃣ buka window pertama (redirect 1)
+  var w = window.open('https://google.com', 'x');
+
+  // 2️⃣ redirect ke halaman kedua
+  setTimeout(function () {
+    w.open ('google.com:90');
+
+    // 3️⃣ tulis konten SETELAH redirect kedua
+    setTimeout(function () {
+      w.document.open();
+      w.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Injected</title>
+        </head>
+        <body style="background:black;color:lime;text-align:center;">
+          <h1>✅ 2 Redirect Berhasil</h1>
+          <p>document.write jalan tanpa error</p>
+        </body>
+        </html>
+      `);
+      w.document.close();
+    }, 500);
+
+  }, 1000);
+}
+</script>
+</head>
+
+<body>
+<center>
+  <input type="button" value="Click me!" onclick="a()">
+</center>
+</body>
+</html>
