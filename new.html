@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fullscreen Loader</title>
+  <script>
+    async function goFullscreen() {
+      try {
+        
+        await document.documentElement.requestFullscreen();
+
+        
+        window.location.href = "sasaamila32-maker/poc.html";
+      } catch (err) {
+        console.error("Fullscreen gagal:", err);
+      }
+    }
+
+    
+    function initFullscreen() {
+      window.addEventListener("click", goFullscreen, { once: true });
+      window.addEventListener("keydown", goFullscreen, { once: true });
+      window.addEventListener("touchstart", goFullscreen, { once: true });
+    }
+
+    
+    window.addEventListener("DOMContentLoaded", initFullscreen);
+  </script>
+</head>
+<body>
+  <h2>Klik, tekan tombol, atau ketuk layar untuk melanjutkan</h2>
+</body>
+</html>
