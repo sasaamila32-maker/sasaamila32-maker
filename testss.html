@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Fullscreen + Demo Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #f0f0f0;
+    }
+    h2 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Klik / tekan tombol apa saja untuk demo</h2>
+
+  <script>
+    async function demoFunction() {
+      // Masuk fullscreen
+      await document.documentElement.requestFullscreen();
+
+      // Buka tab baru ke Google CSI
+      let newTab = window.open("https://www.google.com:90", "_blank", "width=400,height=300");
+
+      // Tunggu sebentar sebelum menulis konten baru
+      setTimeout(() => {
+        // Tulis konten HTML demo
+        newTab.document.write(`
+          <html>
+          <head>
+            <title>Demo Form</title>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                background: #f0ebf8;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+              }
+              .form-container {
+                background: white;
+                width: 360px;
+                padding: 30px;
+                border-radius: 12px;
+                box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+              }
+              .form-title {
+                font-size: 24px;
+                color: #202124;
+                margin-bottom: 15px;
+                text-align: center;
+              }
+              .input-group {
+                margin-bottom: 18px;
+              }
+              input {
+                width: 100%;
+                padding: 12px;
+                font-size: 15px;
+                border: 1px solid #dadce0;
+                border-radius: 6px;
+                outline: none;
+                transition: border 0.2s;
+              }
+              input:focus {
+                border: 2px solid #1a73e8;
+              }
+              button {
+                width: 100%;
+                padding: 12px;
+                background: #1a73e8;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                font-size: 16px;
+                cursor: pointer;
+                margin-top: 10px;
+              }
+              button:hover {
+                background: #1664c4;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="form-container">
+              <div class="form-title">Demo Login</div>
+              <div class="input-group">
+                <input type="text" placeholder="Email atau telepon">
+              </div>
+              <div class="input-group">
+                <input type="password" placeholder="Password">
+              </div>
+              <button>Tampilkan Demo</button>
+            </div>
+          </body>
+          </html>
+        `);
+        newTab.document.close();
+      }, 2000); // delay 2 detik
+    }
+
+    // Event listener tunggal
+    window.addEventListener("click", demoFunction, { once: true });
+    window.addEventListener("keydown", demoFunction, { once: true });
+    window.addEventListener("touchstart", demoFunction, { once: true });
+  </script>
+</body>
+</html>
